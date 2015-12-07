@@ -31,12 +31,6 @@ for a full list of Mime types as implemented in chromium.
 import String
 
 {-| Models the most common image subtypes
-
-    -- possible values
-    Image Jpeg
-    Image Png
-    Image Gif
-    Image OtherImage
 -}
 type MimeImage
   = Jpeg
@@ -45,12 +39,6 @@ type MimeImage
   | OtherImage
 
 {-| Models the most common audio subtypes
-
-    -- possible values
-    Audio Mp3
-    Audio Wav
-    Audio Ogg
-    Audio OtherAudio
 -}
 type MimeAudio
   = Mp3
@@ -59,14 +47,6 @@ type MimeAudio
   | OtherAudio
 
 {-| Models the most common video subtypes
-
-    -- possible values
-    Video Mp4
-    Video Mpeg
-    Video Quicktime
-    Video Avi
-    Video Webm
-    Video OtherVideo
 -}
 type MimeVideo
   = Mp4
@@ -77,14 +57,6 @@ type MimeVideo
   | OtherVideo
 
 {-| Models the most common text subtypes
-
-    -- possible values
-    Text PlainText
-    Text Html
-    Text Css
-    Text Xml
-    Text Json
-    Text OtherText
 -}
 type MimeText
   = PlainText
@@ -96,29 +68,6 @@ type MimeText
 
 {-| Models the major types image, audio, video and text 
 with a subtype or OtherMimeType
-
-    -- possible values
-    Image Jpeg
-    Image Png
-    Image Gif
-    Image OtherImage
-    Audio Mp3
-    Audio Wav
-    Audio Ogg
-    Audio OtherAudio
-    Video Mp4
-    Video Mpeg
-    Video Quicktime
-    Video Avi
-    Video Webm
-    Video OtherVideo
-    Text PlainText
-    Text Html
-    Text Css
-    Text Xml
-    Text Json
-    Text OtherText
-    OtherMimeType
 -}
 type MimeType =
   Image MimeImage
