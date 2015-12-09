@@ -5,7 +5,7 @@ parse mime types from a string.
 
 The basic usage is to parse the mime type from a string identifier and then match against it, e.g.
 
-```Elm
+```elm
 let
     maybeMimeType = parseMimeType someMimeIdentifierString
   in
