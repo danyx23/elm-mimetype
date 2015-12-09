@@ -14,10 +14,11 @@ let
         "Could not be parsed as a mime type at all"
       Just mimeType ->
         case mimeType of
-          Image Jpeg ->
-            "Successfully parsed as jpeg image"
-          Image _ ->
-            "Some image, but not a jpeg"
+          Image subtype ->
+            if (subtype == MimeType.Jpeg) then
+              "Successfully parsed as jpeg image"
+            else
+              "Some image, but not a jpeg"
           _ ->
             "Other mime type"      
 ```
