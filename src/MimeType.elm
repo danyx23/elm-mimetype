@@ -4,7 +4,9 @@ module MimeType
   , MimeVideo(..)
   , MimeText(..)
   , MimeType(Image, Audio, Video, Text, OtherMimeType)
-  , parseMimeType) where
+  , parseMimeType
+  , toString
+  ) where
   
 {-| This modules provides the union type MimeType to model some of the most common
 mime types and a parsing function that tries to parse a MimeType. The possible values for
@@ -19,8 +21,8 @@ for a full list of Mime types as implemented in chromium.
 # Mime type
 @docs MimeType
 
-# Parsing function
-@docs parseMimeType
+# Parsing function & toString
+@docs parseMimeType, toString
 
 # Subtypes
 @docs MimeText, MimeImage, MimeAudio, MimeVideo
@@ -122,3 +124,44 @@ parseMimeType mimeString =
         Just <| Text OtherText
       else
         Just OtherMimeType
+        
+{-| Transforms a MimeType back to a string represenation.
+Note that this only works properly for correctly recognized
+mime types at the moment. A future version of this library
+will instead store the originally parsed mime type.
+
+    toString (Image Jpeg) == "image/jpeg"
+-}
+toString : MimeType -> String
+toString mimeType =
+  case mimeType of 
+    Image img ->
+      case img of
+        Jpeg -> "image/jpeg"
+        Png -> "image/png"
+        Gif -> "image/gif"
+        OtherImage -> "image/other"
+    Audio audio ->
+      case audio of
+        Mp3 -> "audio/mp3"
+        Wav -> "audio/wav"
+        Ogg -> "audio/ogg"
+        OtherAudio -> "audio/other"
+    Video video ->
+      case video of
+        Mp4 -> "video/mp4"
+        Mpeg -> "video/mpeg"
+        Quicktime -> "video/quicktime"
+        Avi -> "video/avi"
+        Webm -> "video/webm"
+        OtherVideo -> "video/other"        
+    Text text ->
+      case text of 
+        PlainText -> "text/plain"
+        Html -> "text/html"
+        Css -> "text/css" 
+        Xml -> "text/xml"
+        Json -> "application/json"
+        OtherText -> "text/other"
+    OtherMimeType -> 
+      "other/other"
