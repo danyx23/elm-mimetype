@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2",
+    "version": "1.1.0",
     "summary": "Modelling the most common Mime Types as union types",
     "repository": "https://github.com/danyx23/elm-mimetype.git",
     "license": "BSD3",
