@@ -7,15 +7,15 @@ module MimeType
   , parseMimeType
   , toString
   ) where
-  
+
 {-| This modules provides the union type MimeType to model some of the most common
 mime types and a parsing function that tries to parse a MimeType. The possible values for
 MimeType are all union types as well that specify the Sub-type. It was originally developed to
 classify files dropped into the browser via the HTML5 Drag and Drop api.
 
-This library ATM provides only an incomplete, somewhat arbitrary mapping of the most common 
-browser mime types. 
-See https://code.google.com/p/chromium/codesearch#chromium/src/net/base/mime_util.cc&l=201 
+This library ATM provides only an incomplete, somewhat arbitrary mapping of the most common
+browser mime types.
+See https://code.google.com/p/chromium/codesearch#chromium/src/net/base/mime_util.cc&l=201
 for a full list of Mime types as implemented in chromium.
 
 # Mime type
@@ -29,8 +29,25 @@ for a full list of Mime types as implemented in chromium.
 
 -}
 
-
 import String
+
+type alias Named a =
+  { a
+  | name : String
+  }
+
+type alias Model =
+  { bla : String
+  , name : String
+  }
+
+printNamed : Named a -> String
+printNamed named =
+  named.name
+
+test = Model "bla" "Name"
+
+named = printNamed test
 
 {-| Models the most common image subtypes
 -}
@@ -68,7 +85,7 @@ type MimeText
   | Json
   | OtherText
 
-{-| Models the major types image, audio, video and text 
+{-| Models the major types image, audio, video and text
 with a subtype or OtherMimeType
 -}
 type MimeType =
@@ -82,16 +99,16 @@ type MimeType =
 
     -- normal use of a type/subtype that is modelled:
     parseMimeType "image/jpeg" == Just (Image Jpeg)
-    
+
     -- use of a subtype that is not modelled ATM
     parseMimeType "image/tiff" == Just (Image OtherImage)
-    
+
     -- use with an empty string
     parseMimeType "" == Nothing
-    
+
     -- use with something else
     parseMimeType "bla" == Just OtherMimeType
- 
+
 -}
 parseMimeType: String -> Maybe MimeType
 parseMimeType mimeString =
@@ -101,6 +118,7 @@ parseMimeType mimeString =
     "image/png" -> Just <| Image Png
     "image/gif" -> Just <| Image Gif
     "audio/mp3" -> Just <| Audio Mp3
+    "audio/mpeg" -> Just <| Audio Mp3 -- firefox etc tag mp3 as audio/mpeg
     "audio/wav" -> Just <| Audio Wav
     "audio/ogg" -> Just <| Audio Ogg
     "video/mp4" -> Just <| Video Mp4
@@ -124,7 +142,7 @@ parseMimeType mimeString =
         Just <| Text OtherText
       else
         Just OtherMimeType
-        
+
 {-| Transforms a MimeType back to a string represenation.
 Note that this only works properly for correctly recognized
 mime types at the moment. A future version of this library
@@ -134,7 +152,7 @@ will instead store the originally parsed mime type.
 -}
 toString : MimeType -> String
 toString mimeType =
-  case mimeType of 
+  case mimeType of
     Image img ->
       case img of
         Jpeg -> "image/jpeg"
@@ -154,14 +172,14 @@ toString mimeType =
         Quicktime -> "video/quicktime"
         Avi -> "video/avi"
         Webm -> "video/webm"
-        OtherVideo -> "video/other"        
+        OtherVideo -> "video/other"
     Text text ->
-      case text of 
+      case text of
         PlainText -> "text/plain"
         Html -> "text/html"
-        Css -> "text/css" 
+        Css -> "text/css"
         Xml -> "text/xml"
         Json -> "application/json"
         OtherText -> "text/other"
-    OtherMimeType -> 
+    OtherMimeType ->
       "other/other"
