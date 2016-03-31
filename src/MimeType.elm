@@ -45,10 +45,6 @@ printNamed : Named a -> String
 printNamed named =
   named.name
 
-test = Model "bla" "Name"
-
-named = printNamed test
-
 {-| Models the most common image subtypes
 -}
 type MimeImage
