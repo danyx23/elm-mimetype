@@ -3,7 +3,8 @@ module MimeType
   , MimeAudio(..)
   , MimeVideo(..)
   , MimeText(..)
-  , MimeType(Image, Audio, Video, Text, OtherMimeType)
+  , MimeApp(..)
+  , MimeType(Image, Audio, Video, Text, App, OtherMimeType)
   , parseMimeType
   , toString
   ) where
@@ -25,7 +26,7 @@ for a full list of Mime types as implemented in chromium.
 @docs parseMimeType, toString
 
 # Subtypes
-@docs MimeText, MimeImage, MimeAudio, MimeVideo
+@docs MimeText, MimeImage, MimeAudio, MimeVideo, MimeApp
 
 -}
 
@@ -81,6 +82,17 @@ type MimeText
   | Json
   | OtherText
 
+{-| Models the most common app subtypes
+-}
+type MimeApp
+  = Word
+  | WordXml
+  | Excel
+  | ExcelXml
+  | PowerPoint
+  | PowerPointXml
+  | OtherApp
+
 {-| Models the major types image, audio, video and text
 with a subtype or OtherMimeType
 -}
@@ -89,6 +101,7 @@ type MimeType =
   | Audio MimeAudio
   | Video MimeVideo
   | Text MimeText
+  | App MimeApp
   | OtherMimeType
 
 {-| Tries to parse the Mime type from a string.
@@ -127,6 +140,12 @@ parseMimeType mimeString =
     "text/css" -> Just <| Text Css
     "text/xml" -> Just <| Text Xml
     "application/json" -> Just <| Text Json
+    "application/msword" -> Just <| App Word
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> Just <| App WordXml
+    "application/vnd.ms-excel" -> Just <| App Excel
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -> Just <| App ExcelXml
+    "application/vnd.ms-powerpoint" -> Just <| App PowerPoint
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> Just <| App PowerPointXml
     lowerCaseMimeString ->
       if (String.startsWith "image/" lowerCaseMimeString) then
         Just <| Image OtherImage
@@ -177,5 +196,14 @@ toString mimeType =
         Xml -> "text/xml"
         Json -> "application/json"
         OtherText -> "text/other"
+    App app ->
+      case app of
+        Word -> "application/msword"
+        WordXml -> "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        Excel -> "application/vnd.ms-excel"
+        ExcelXml -> "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        PowerPoint -> "application/vnd.ms-powerpoint"
+        PowerPointXml -> "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        OtherApp -> "application/other"
     OtherMimeType ->
       "other/other"
