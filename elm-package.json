@@ -4,8 +4,7 @@
     "repository": "https://github.com/danyx23/elm-mimetype.git",
     "license": "BSD3",
     "source-directories": [
-        ".",
-        "./src"
+        "src"
     ],
     "exposed-modules": [
         "MimeType"
