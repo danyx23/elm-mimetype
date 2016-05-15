@@ -33,24 +33,6 @@ for a full list of Mime types as implemented in chromium.
 
 import String
 
-
-type alias Named a =
-    { a
-        | name : String
-    }
-
-
-type alias Model =
-    { bla : String
-    , name : String
-    }
-
-
-printNamed : Named a -> String
-printNamed named =
-    named.name
-
-
 {-| Models the most common image subtypes
 -}
 type MimeImage
