@@ -33,6 +33,7 @@ for a full list of Mime types as implemented in chromium.
 
 import String
 
+
 {-| Models the most common image subtypes
 -}
 type MimeImage
@@ -82,6 +83,7 @@ type MimeApp
     | ExcelXml
     | PowerPoint
     | PowerPointXml
+    | Pdf
     | OtherApp
 
 
@@ -187,6 +189,9 @@ parseMimeType mimeString =
 
         "application/vnd.openxmlformats-officedocument.presentationml.presentation" ->
             Just <| App PowerPointXml
+
+        "application/pdf" ->
+            Just <| App Pdf
 
         lowerCaseMimeString ->
             if (String.startsWith "image/" lowerCaseMimeString) then
@@ -298,6 +303,9 @@ toString mimeType =
 
                 PowerPointXml ->
                     "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+
+                Pdf ->
+                    "application/pdf"
 
                 OtherApp ->
                     "application/other"
