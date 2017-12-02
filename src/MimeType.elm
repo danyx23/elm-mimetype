@@ -40,7 +40,7 @@ type MimeImage
     = Jpeg
     | Png
     | Gif
-    | OtherImage
+    | OtherImage String
 
 
 {-| Models the most common audio subtypes
@@ -49,7 +49,7 @@ type MimeAudio
     = Mp3
     | Ogg
     | Wav
-    | OtherAudio
+    | OtherAudio String
 
 
 {-| Models the most common video subtypes
@@ -60,7 +60,7 @@ type MimeVideo
     | Quicktime
     | Avi
     | Webm
-    | OtherVideo
+    | OtherVideo String
 
 
 {-| Models the most common text subtypes
@@ -71,7 +71,7 @@ type MimeText
     | Css
     | Xml
     | Json
-    | OtherText
+    | OtherText String
 
 
 {-| Models the most common app subtypes
@@ -84,7 +84,7 @@ type MimeApp
     | PowerPoint
     | PowerPointXml
     | Pdf
-    | OtherApp
+    | OtherApp String
 
 
 {-| Models the major types image, audio, video and text
@@ -96,7 +96,7 @@ type MimeType
     | Video MimeVideo
     | Text MimeText
     | App MimeApp
-    | OtherMimeType
+    | OtherMimeType String
 
 
 {-| Tries to parse the Mime type from a string.
@@ -195,15 +195,15 @@ parseMimeType mimeString =
 
         lowerCaseMimeString ->
             if (String.startsWith "image/" lowerCaseMimeString) then
-                Just <| Image OtherImage
+                Just <| Image (OtherImage (String.dropLeft (String.length "image/") lowerCaseMimeString))
             else if (String.startsWith "audio/" lowerCaseMimeString) then
-                Just <| Audio OtherAudio
+                Just <| Audio (OtherAudio (String.dropLeft (String.length "audio/") lowerCaseMimeString))
             else if (String.startsWith "video/" lowerCaseMimeString) then
-                Just <| Video OtherVideo
+                Just <| Video (OtherVideo (String.dropLeft (String.length "video/") lowerCaseMimeString))
             else if (String.startsWith "text/" lowerCaseMimeString) then
-                Just <| Text OtherText
+                Just <| Text (OtherText (String.dropLeft (String.length "text/") lowerCaseMimeString))
             else
-                Just OtherMimeType
+                Just (OtherMimeType lowerCaseMimeString)
 
 
 {-| Transforms a MimeType back to a string represenation.
@@ -227,8 +227,8 @@ toString mimeType =
                 Gif ->
                     "image/gif"
 
-                OtherImage ->
-                    "image/other"
+                OtherImage type_ ->
+                    "image/" ++ type_
 
         Audio audio ->
             case audio of
@@ -241,8 +241,8 @@ toString mimeType =
                 Ogg ->
                     "audio/ogg"
 
-                OtherAudio ->
-                    "audio/other"
+                OtherAudio type_ ->
+                    "audio/" ++ type_
 
         Video video ->
             case video of
@@ -261,8 +261,8 @@ toString mimeType =
                 Webm ->
                     "video/webm"
 
-                OtherVideo ->
-                    "video/other"
+                OtherVideo type_ ->
+                    "video/" ++ type_
 
         Text text ->
             case text of
@@ -281,8 +281,8 @@ toString mimeType =
                 Json ->
                     "application/json"
 
-                OtherText ->
-                    "text/other"
+                OtherText type_ ->
+                    "text/" ++ type_
 
         App app ->
             case app of
@@ -307,8 +307,8 @@ toString mimeType =
                 Pdf ->
                     "application/pdf"
 
-                OtherApp ->
-                    "application/other"
+                OtherApp type_ ->
+                    "application/" ++ type_
 
-        OtherMimeType ->
-            "other/other"
+        OtherMimeType type_ ->
+            type_
