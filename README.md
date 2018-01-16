@@ -1,4 +1,4 @@
-#Elm MimeType
+# Elm MimeType
 
 Models the most common mime types as a Union type in Elm and provides a method to 
 parse mime types from a string.
