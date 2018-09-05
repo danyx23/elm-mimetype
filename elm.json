@@ -3,7 +3,7 @@
     "name": "danyx23/elm-mimetype",
     "summary": "Modelling the most common Mime Types as union types",
     "license": "BSD-3-Clause",
-    "version": "5.0.0",
+    "version": "4.0.1",
     "exposed-modules": [
         "MimeType"
     ],
