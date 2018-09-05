@@ -1,14 +1,8 @@
-module MimeType
-    exposing
-        ( MimeImage(..)
-        , MimeAudio(..)
-        , MimeVideo(..)
-        , MimeText(..)
-        , MimeApp(..)
-        , MimeType(Image, Audio, Video, Text, App, OtherMimeType)
-        , parseMimeType
-        , toString
-        )
+module MimeType exposing
+    ( MimeType(..)
+    , parseMimeType, toString
+    , MimeText(..), MimeImage(..), MimeAudio(..), MimeVideo(..), MimeApp(..)
+    )
 
 {-| This modules provides the union type MimeType to model some of the most common
 mime types and a parsing function that tries to parse a MimeType. The possible values for
@@ -17,16 +11,22 @@ classify files dropped into the browser via the HTML5 Drag and Drop api.
 
 This library ATM provides only an incomplete, somewhat arbitrary mapping of the most common
 browser mime types.
-See https://code.google.com/p/chromium/codesearch#chromium/src/net/base/mime_util.cc&l=201
+See [https://code.google.com/p/chromium/codesearch#chromium/src/net/base/mime\_util.cc&l=201](https://code.google.com/p/chromium/codesearch#chromium/src/net/base/mime_util.cc&l=201)
 for a full list of Mime types as implemented in chromium.
 
+
 # Mime type
+
 @docs MimeType
 
+
 # Parsing function & toString
+
 @docs parseMimeType, toString
 
+
 # Subtypes
+
 @docs MimeText, MimeImage, MimeAudio, MimeVideo, MimeApp
 
 -}
@@ -104,11 +104,14 @@ type MimeType
     -- normal use of a type/subtype that is modelled:
     parseMimeType "image/jpeg" == Just (Image Jpeg)
 
+
     -- use of a subtype that is not modelled ATM
     parseMimeType "image/tiff" == Just (Image OtherImage)
 
+
     -- use with an empty string
     parseMimeType "" == Nothing
+
 
     -- use with something else
     parseMimeType "bla" == Just OtherMimeType
@@ -116,7 +119,7 @@ type MimeType
 -}
 parseMimeType : String -> Maybe MimeType
 parseMimeType mimeString =
-    case (String.toLower mimeString) of
+    case String.toLower mimeString of
         "" ->
             Nothing
 
@@ -194,14 +197,18 @@ parseMimeType mimeString =
             Just <| App Pdf
 
         lowerCaseMimeString ->
-            if (String.startsWith "image/" lowerCaseMimeString) then
+            if String.startsWith "image/" lowerCaseMimeString then
                 Just <| Image (OtherImage (String.dropLeft (String.length "image/") lowerCaseMimeString))
-            else if (String.startsWith "audio/" lowerCaseMimeString) then
+
+            else if String.startsWith "audio/" lowerCaseMimeString then
                 Just <| Audio (OtherAudio (String.dropLeft (String.length "audio/") lowerCaseMimeString))
-            else if (String.startsWith "video/" lowerCaseMimeString) then
+
+            else if String.startsWith "video/" lowerCaseMimeString then
                 Just <| Video (OtherVideo (String.dropLeft (String.length "video/") lowerCaseMimeString))
-            else if (String.startsWith "text/" lowerCaseMimeString) then
+
+            else if String.startsWith "text/" lowerCaseMimeString then
                 Just <| Text (OtherText (String.dropLeft (String.length "text/") lowerCaseMimeString))
+
             else
                 Just (OtherMimeType lowerCaseMimeString)
 
@@ -212,6 +219,7 @@ mime types at the moment. A future version of this library
 will instead store the originally parsed mime type.
 
     toString (Image Jpeg) == "image/jpeg"
+
 -}
 toString : MimeType -> String
 toString mimeType =
